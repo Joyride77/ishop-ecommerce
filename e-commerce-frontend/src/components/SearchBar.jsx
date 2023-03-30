@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { LoginContext } from "../context/login-provider";
 
 export default function SearchBar(props) {
   const [showWish, setShowWish] = useState(false);
   const [showBasket, setShowBasket] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
+  const { login, setLogin } = useContext(LoginContext)
+  // const navigate = useNavigate();
+
+  // if (login) {
+  //   navigate("/")
+  // }
+
+  const signOut = () => {
+    localStorage.removeItem("token")
+    setLogin(false)
+  }
+
   const notifyBasketRemove = (title) =>
     toast.error(title + "-г сагснаас амжилттай устгалаа.! ", {
       icon: <i class="bi bi-trash3"></i>,
@@ -25,21 +40,21 @@ export default function SearchBar(props) {
   }
 
   function removeFromBasket(id, title, props) {
-    console.log("--------To remove from Basket ");
-    console.log("Basket remove ID = " + id);
+    // console.log("--------To remove from Basket ");
+    // console.log("Basket remove ID = " + id);
     props.setBasket(props.basket.filter((a) => a.id !== id));
     notifyBasketRemove(title);
   }
 
-  console.log("Wishlist array = ");
-  console.log(props.wishlist);
+  // console.log("Wishlist array = ");
+  // console.log(props.wishlist);
 
-  console.log("Basket array = ");
-  console.log(props.basket);
+  // console.log("Basket array = ");
+  // console.log(props.basket);
 
   function removeFromWishlist(id, title, props) {
-    console.log("--------To remove from wishlist ");
-    console.log("wishlist remove ID = " + id);
+    // console.log("--------To remove from wishlist ");
+    // console.log("wishlist remove ID = " + id);
     props.setWishlist(props.wishlist.filter((a) => a.id !== id));
     notifyWishlistRemove(title);
   }
@@ -87,7 +102,7 @@ export default function SearchBar(props) {
             <div className="signin">
               <i className="bi bi-person"></i>
               <span className="space"> </span>
-              <Link to={"/signup"}>Sign in</Link>
+              <button onClick={signOut} to={"/signup"}>{login ? "SignOut" : "SignIn"}</button>
             </div>
             <div className="favorite">
               <i

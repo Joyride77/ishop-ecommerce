@@ -12,11 +12,12 @@ export default function MainMenu() {
     fetchMenu(URL, setMenus);
   }, []);
 
-  console.log(menus);
+  // console.log(menus);
 
-  const subMenus = menus.map((subMenu) => {
+  const subMenus = menus.map((subMenu, index) => {
     return (
       <SubMenu
+        key={index}
         id={subMenu._id}
         title={subMenu.title}
         position={subMenu.position}
